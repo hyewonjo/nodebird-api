@@ -63,7 +63,8 @@ app.use(passport.session());
 /**
  * use router
  */
-
+app.use('/', require('./routes'));
+app.use('/auth', require('./routes/auth'));
 
 /**
  * error handling
