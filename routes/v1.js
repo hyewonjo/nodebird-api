@@ -11,9 +11,10 @@ const router = express.Router();
 router.post('/token', async (req, res) => {
     // secret 이 유효한지 검사
     try {
+        const { clientSecret } = req.body;
         const domain = await Domain.findOne({
             where: {
-                clientSecret: req.body,
+                clientSecret: clientSecret,
             },
             include: {
                 model: User,

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const {TokenExpiredError} = require("jsonwebtoken");
 
 exports.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -23,7 +24,8 @@ exports.verifyToken = (req, res, next) => {
         req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
         next();
     } catch (err) {
-        if (err.name === 'TokenExpiredError') { // 유효기간 초과
+        console.error(err);
+        if (err instanceof TokenExpiredError) { // 유효기간 초과
             return res.status(419).json({
                code: 419,
                message: '토큰이 만료되었습니다',
